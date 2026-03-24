@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: ai-tutor-db
+    environment:
+      POSTGRES_USER: aiuser
+      POSTGRES_PASSWORD: aipass123
+      POSTGRES_DB: ai_tutor
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aiuser -d ai_tutor"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API
+  backend:
+    build: ./backend
+    container_name: ai-tutor-backend
+    environment:
+      DATABASE_URL: postgresql://aiuser:aipass123@postgres:5432/ai_tutor
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-change-in-production}
+      ALLOWED_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app
+      - ai_tutor_uploads:/app/uploads
+      - ai_tutor_data:/app/data
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # Frontend
+  frontend:
+    build: ./frontend
+    container_name: ai-tutor-frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      VITE_API_BASE_URL: http://backend:8000/api
+
+volumes:
+  postgres_data:
+  ai_tutor_uploads:
+  ai_tutor_data:

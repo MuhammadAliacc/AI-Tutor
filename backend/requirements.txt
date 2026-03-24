@@ -1,0 +1,36 @@
+# fastapi==0.104.1
+# uvicorn[standard]==0.24.0
+# pydantic>=2.0
+# pydantic-settings
+# python-dotenv
+# sqlalchemy
+# psycopg2-binary
+pydantic[email]
+# python-jose[cryptography]
+# langchain>=0.2.0
+# langchain-community>=0.3.0
+langchain-text-splitters>=0.3.0
+# python-multipart>=0.0.6
+python-multipart
+
+
+
+fastapi
+uvicorn[standard]
+sqlalchemy
+psycopg2-binary
+python-dotenv
+python-jose[cryptography]
+pydantic>=2.0
+# pydantic-settings
+passlib[bcrypt]
+bcrypt==4.0.1
+langchain
+langchain-community
+
+langchain-core
+chromadb
+hnswlib
+tiktoken
+openai
+pypdf
