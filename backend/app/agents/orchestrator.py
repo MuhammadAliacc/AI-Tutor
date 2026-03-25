@@ -102,6 +102,9 @@ class RetrievalAgent(BaseAgent):
 class ContextualizationAgent(BaseAgent):
     """Agent responsible for organizing and structuring retrieved context."""
 
+    def __init__(self):
+        super().__init__("ContextualizationAgent")
+
     async def process(self, input_data: Dict[str, Any]) -> AgentMessage:
         """
         Organize and structure the retrieved documents.
@@ -166,6 +169,9 @@ class ContextualizationAgent(BaseAgent):
 class AnswerGenerationAgent(BaseAgent):
     """Agent responsible for generating the final answer."""
 
+    def __init__(self):
+        super().__init__("AnswerGenerationAgent")
+
     async def process(self, input_data: Dict[str, Any]) -> AgentMessage:
         """
         Generate a comprehensive answer based on organized context.
@@ -228,6 +234,9 @@ class AnswerGenerationAgent(BaseAgent):
 
 class ValidationAgent(BaseAgent):
     """Agent responsible for validating the accuracy and relevance of answers."""
+
+    def __init__(self):
+        super().__init__("ValidationAgent")
 
     async def process(self, input_data: Dict[str, Any]) -> AgentMessage:
         """

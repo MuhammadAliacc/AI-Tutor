@@ -23,11 +23,15 @@ services:
   backend:
     build: ./backend
     container_name: ai-tutor-backend
+
+    env_file:
+        - ./backend/.env
+        
     environment:
       DATABASE_URL: postgresql://aiuser:aipass123@postgres:5432/ai_tutor
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      SECRET_KEY: ${SECRET_KEY:-your-secret-key-change-in-production}
       ALLOWED_ORIGINS: http://localhost:3000,http://127.0.0.1:3000
+
+
     ports:
       - "8000:8000"
     depends_on:
